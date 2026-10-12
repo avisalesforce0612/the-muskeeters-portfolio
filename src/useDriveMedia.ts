@@ -65,6 +65,11 @@ export function useDriveMedia(): DriveMediaState {
             fields: 'nextPageToken,files(id,name,mimeType,createdTime)',
             orderBy: 'createdTime desc',
             pageSize: '1000',
+            // These flags are required when the connected folder is in a Shared Drive.
+            // They remain safe for normal My Drive folders.
+            corpora: 'allDrives',
+            includeItemsFromAllDrives: 'true',
+            supportsAllDrives: 'true',
             key: apiKey,
           });
           if (pageToken) params.set('pageToken', pageToken);
