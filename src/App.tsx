@@ -243,7 +243,7 @@ function Sound() {
   );
 }
 
-function Band({ photos, loading }: { photos: DriveMediaFile[]; loading: boolean }) {
+function Band({ photos, loading, configured }: { photos: DriveMediaFile[]; loading: boolean; configured: boolean }) {
   const leadPhoto = photos[0];
   const additionalPhotos = photos.slice(1, 9);
 
@@ -264,7 +264,9 @@ function Band({ photos, loading }: { photos: DriveMediaFile[]; loading: boolean 
             <div className="photo-orbit photo-orbit-one" />
             <div className="photo-orbit photo-orbit-two" />
             <AudioLines size={33} strokeWidth={1.2} />
-            <span className="photo-caption">{loading ? 'LOADING PHOTOS FROM DRIVE' : 'ADD PHOTOS TO THE DRIVE FOLDER'}</span>
+            <span className="photo-caption">
+              {loading ? 'LOADING PHOTOS FROM DRIVE' : configured ? 'ADD PHOTOS TO THE DRIVE FOLDER' : 'CONNECT DRIVE TO SHOW PHOTOS'}
+            </span>
             <span className="photo-index">THE MUSKETEERS / GURUGRAM</span>
           </div>
         )}
@@ -351,7 +353,7 @@ function Live({ videos, photos, loading, error, configured }: {
         </div>
       )}
       {error && <p className="media-note media-error" role="status">Couldn’t load the Drive folder: {error}</p>}
-      {!configured && <p className="media-note">The Drive folder is selected. Add its restricted API key once; then new clips and photos will appear here automatically.</p>}
+      {!configured && <p className="media-note">The Drive folder is selected, but this site build has no Drive API key. Add a restricted, read-only key and redeploy; photos already in the folder will appear after refresh.</p>}
       {configured && !loading && !error && videos.length === 0 && photos.length === 0 && (
         <p className="media-note">Drive folder connected — no photos or videos yet. Add media to this folder and it will appear here on the next refresh.</p>
       )}
@@ -383,6 +385,7 @@ function Experience() {
 }
 
 function Booking() {
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const [eventType, setEventType] = useState(eventTypes[0]);
   const [date, setDate] = useState('');
   const [message, setMessage] = useState('');
@@ -390,6 +393,18 @@ function Booking() {
   const [name, setName] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
   const [whatsappLink, setWhatsappLink] = useState('');
+
+  function openDatePicker() {
+    const dateInput = dateInputRef.current;
+    if (!dateInput) return;
+
+    if (typeof dateInput.showPicker === 'function') {
+      dateInput.showPicker();
+    } else {
+      dateInput.focus();
+      dateInput.click();
+    }
+  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -409,7 +424,14 @@ function Booking() {
         <div className="booking-aside"><CalendarDays size={19} /><span>Gurugram · Delhi NCR · nearby good rooms</span></div>
         <a className="contact-email" href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noreferrer"><MessageCircle size={16} />WhatsApp the band</a>
         {siteConfig.bookingEmail && (
-          <a className="contact-email" href={`mailto:${siteConfig.bookingEmail}`}><Mail size={16} />{siteConfig.bookingEmail}</a>
+          <a
+            className="contact-email"
+            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(siteConfig.bookingEmail)}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Mail size={16} />{siteConfig.bookingEmail}
+          </a>
         )}
       </div>
       <form className="booking-form" onSubmit={submit}>
@@ -422,7 +444,21 @@ function Booking() {
               {eventTypes.map((type) => <option key={type}>{type}</option>)}
             </select>
           </label>
-          <label>When? <span className="optional-label">(optional)</span><input type="date" value={date} onChange={(event) => setDate(event.target.value)} /></label>
+          <label>
+            When? <span className="optional-label">(optional)</span>
+            <span className="date-input-wrap">
+              <input
+                ref={dateInputRef}
+                type="date"
+                aria-label="Event date"
+                value={date}
+                onChange={(event) => setDate(event.target.value)}
+              />
+              <button className="date-picker-trigger" type="button" onClick={openDatePicker} aria-label="Open date picker">
+                <CalendarDays size={16} aria-hidden="true" />
+              </button>
+            </span>
+          </label>
         </div>
         <label>A little about it<textarea required rows={3} value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Venue, city, vibe, anything we should know..." /></label>
         <button className="button button-light form-submit" type="submit">Prepare enquiry on WhatsApp <ArrowUpRight size={17} /></button>
@@ -471,7 +507,7 @@ export default function App() {
         <Hero />
         <Journey />
         <Sound />
-        <Band photos={media.photos} loading={media.loading} />
+        <Band photos={media.photos} loading={media.loading} configured={media.configured} />
         <Live
           videos={media.videos}
           photos={media.photos}

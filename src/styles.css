@@ -453,6 +453,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .booking-form input, .booking-form select, .booking-form textarea { display: block; width: 100%; min-height: 44px; margin-top: 7px; padding: 11px 12px; border: 1px solid #d1cbb7; border-radius: 0; color: #24251c; background: #f7f2e5; font-size: 11px; }
 .booking-form textarea { min-height: 80px; resize: vertical; }
 .booking-form input::placeholder, .booking-form textarea::placeholder { color: #87816e; }
+.date-input-wrap { position: relative; display: block; margin-top: 7px; }
+.booking-form .date-input-wrap input { margin-top: 0; padding-right: 44px; }
+.date-picker-trigger { position: absolute; top: 50%; right: 7px; display: grid; width: 32px; height: 32px; padding: 0; place-items: center; transform: translateY(-50%); border: 0; color: #51483f; background: transparent; cursor: pointer; }
+.date-picker-trigger:focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
 .optional-label { color: #93877b; font-size: 9px; }
 .form-submit { min-height: 47px; border: 0; }
