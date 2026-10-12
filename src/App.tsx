@@ -451,6 +451,18 @@ function Footer() {
 export default function App() {
   const media = useDriveMedia();
 
+  useEffect(() => {
+    const splash = document.getElementById('boot-splash');
+    if (!splash) return;
+
+    const hideTimer = window.setTimeout(() => {
+      splash.classList.add('boot-splash-hidden');
+      window.setTimeout(() => splash.remove(), 500);
+    }, 850);
+
+    return () => window.clearTimeout(hideTimer);
+  }, []);
+
   return (
     <>
       <BrandAtmosphere />
