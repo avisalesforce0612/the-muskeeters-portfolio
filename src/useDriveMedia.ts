@@ -67,7 +67,6 @@ export function useDriveMedia(): DriveMediaState {
             pageSize: '1000',
             // These flags are required when the connected folder is in a Shared Drive.
             // They remain safe for normal My Drive folders.
-            corpora: 'allDrives',
             includeItemsFromAllDrives: 'true',
             supportsAllDrives: 'true',
             key: apiKey,
