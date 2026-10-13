@@ -11,6 +11,9 @@ function Stage({ progress }: { progress: MotionValue<number> }) {
   const strummingArm = useRef<THREE.Group>(null);
   const cajonArms = useRef<Array<THREE.Group | null>>([]);
   const guitarStrings = useRef<Array<THREE.Mesh | null>>([]);
+  const audience = useRef<Array<THREE.Group | null>>([]);
+  const equalizer = useRef<Array<THREE.Mesh | null>>([]);
+  const spotlights = useRef<Array<THREE.PointLight | null>>([]);
   const { camera } = useThree();
 
   useFrame((state, delta) => {
@@ -35,6 +38,21 @@ function Stage({ progress }: { progress: MotionValue<number> }) {
     guitarStrings.current.forEach((string, index) => {
       if (string) string.position.y = (index - 2.5) * 0.027 + Math.sin(elapsed * 25 + index) * 0.003;
     });
+    audience.current.forEach((person, index) => {
+      if (!person) return;
+      const bounce = Math.sin(elapsed * (1.45 + (index % 3) * 0.12) + index * 1.7);
+      person.position.y = -1.75 + bounce * 0.075;
+      person.rotation.z = bounce * 0.045;
+    });
+    equalizer.current.forEach((bar, index) => {
+      if (!bar) return;
+      const height = 0.32 + (Math.sin(elapsed * 3.2 + index * 0.9) + 1) * 0.2;
+      bar.scale.y = height;
+      bar.position.y = -1.7 + height * 0.24;
+    });
+    spotlights.current.forEach((light, index) => {
+      if (light) light.intensity = 15 + Math.sin(elapsed * 1.6 + index * 1.9) * 5;
+    });
   });
 
   return (
@@ -42,9 +60,9 @@ function Stage({ progress }: { progress: MotionValue<number> }) {
       <color attach="background" args={['#171a12']} />
       <fog attach="fog" args={['#171a12', 9, 22]} />
       <ambientLight intensity={0.82} />
-      <pointLight position={[-4, 3.3, 1]} color="#e9b45d" intensity={24} distance={13} />
-      <pointLight position={[0, 3.6, -1]} color="#b99a57" intensity={17} distance={14} />
-      <pointLight position={[4, 3.2, 1]} color="#9aa06a" intensity={20} distance={13} />
+      <pointLight ref={(node) => { spotlights.current[0] = node; }} position={[-4, 3.3, 1]} color="#e9b45d" intensity={24} distance={13} />
+      <pointLight ref={(node) => { spotlights.current[1] = node; }} position={[0, 3.6, -1]} color="#b99a57" intensity={17} distance={14} />
+      <pointLight ref={(node) => { spotlights.current[2] = node; }} position={[4, 3.2, 1]} color="#9aa06a" intensity={20} distance={13} />
       <group ref={movingGroup}>
         <mesh position={[0, -2.02, -1]} receiveShadow>
           <boxGeometry args={[13, 0.34, 4.6]} />
@@ -212,8 +230,40 @@ function Stage({ progress }: { progress: MotionValue<number> }) {
             <meshStandardMaterial color="#756848" metalness={0.46} roughness={0.42} />
           </mesh>
         </group>
+        <group position={[0, -1.72, -1.9]}>
+          {Array.from({ length: 13 }, (_, index) => {
+            const x = -5.4 + index * 0.9;
+            const z = index % 2 === 0 ? -0.1 : 0.18;
+            const color = index % 3 === 0 ? '#343829' : index % 3 === 1 ? '#47382c' : '#272b22';
+            return (
+              <group key={`audience-${index}`} ref={(node) => { audience.current[index] = node; }} position={[x, -0.03, z]}>
+                <mesh position={[0, 0.22 + (index % 3) * 0.035, 0]}>
+                  <sphereGeometry args={[0.15 + (index % 2) * 0.02, 14, 12]} />
+                  <meshStandardMaterial color="#604a38" roughness={0.8} />
+                </mesh>
+                <mesh position={[0, -0.05, 0]}>
+                  <capsuleGeometry args={[0.21 + (index % 2) * 0.035, 0.48, 5, 10]} />
+                  <meshStandardMaterial color={color} roughness={0.85} />
+                </mesh>
+              </group>
+            );
+          })}
+        </group>
+        <group position={[0, -1.72, -1.52]}>
+          {Array.from({ length: 16 }, (_, index) => (
+            <mesh
+              key={`equalizer-${index}`}
+              ref={(node) => { equalizer.current[index] = node; }}
+              position={[-1.2 + index * 0.16, 0, 0]}
+            >
+              <boxGeometry args={[0.075, 1, 0.045]} />
+              <meshStandardMaterial color={index % 3 === 0 ? '#d6a955' : '#758052'} emissive={index % 3 === 0 ? '#6b481b' : '#26311d'} emissiveIntensity={0.7} />
+            </mesh>
+          ))}
+        </group>
       </group>
-      <Sparkles count={52} scale={[11, 5, 5]} size={1.6} speed={0.14} color="#efc56e" opacity={0.56} />
+      <Sparkles count={86} scale={[11, 5, 5]} size={1.8} speed={0.18} color="#efc56e" opacity={0.62} />
+      <Sparkles count={34} position={[0, 1.2, -1.7]} scale={[10, 2.8, 1]} size={2.2} speed={0.1} color="#9ea66c" opacity={0.34} />
     </>
   );
 }

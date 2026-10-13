@@ -580,3 +580,95 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .note-11 { top: 26%; }
   .music-note:nth-child(n + 7) { display: none; }
 }
+
+/* Comfortable reading scale: the art direction stays intact, while supporting
+   copy and controls are no longer set at poster-caption sizes. */
+body { font-size: 17px; }
+.wordmark-name small,
+.hero-logo-art figcaption,
+.hero-topline,
+.hero-art-note,
+.hero-bottom,
+.journey-topline > span,
+.journey-heading > span,
+.journey-moment-number,
+.journey-progress > div,
+.journey-floor-note,
+.sound-index,
+.sound-foot,
+.era-number,
+.photo-caption,
+.photo-index,
+.reel-stamp,
+.reel-placeholder,
+.reel-caption span,
+.experience-tags span,
+.form-title,
+.site-footer,
+.site-footer small { font-size: 10px; }
+.nav-links,
+.button,
+.text-link,
+.underlined-link,
+.journey-link,
+.band-fact,
+.live-header > p,
+.media-note,
+.booking-aside,
+.contact-email,
+.booking-form label,
+.optional-label,
+.form-footnote,
+.form-status,
+.draft-panel textarea { font-size: 12px; }
+.hero-kicker, .eyebrow { font-size: 11px; }
+.hero-description,
+.journey-moment p,
+.sound-intro > div:nth-child(2) > p,
+.band-copy > p,
+.experience-copy > p,
+.booking-copy > p { font-size: 15px; line-height: 1.85; }
+.era-card p { font-size: 13px; line-height: 1.6; }
+.booking-form input,
+.booking-form select,
+.booking-form textarea { font-size: 13px; }
+.booking-form input, .booking-form select { min-height: 48px; }
+.reel-caption strong { font-size: 20px; }
+.era-card { min-height: 102px; }
+
+@media (max-width: 680px) {
+  .hero-topline, .hero-bottom { font-size: 9px; }
+  .hero-description, .band-copy > p { font-size: 14px; }
+  .era-card p { font-size: 12px; }
+}
+
+/* A deliberately generous reading scale for the booking and content areas. */
+body { font-size: 18px; }
+.nav-links, .button, .text-link, .underlined-link, .journey-link { font-size: 14px; }
+.hero-kicker, .eyebrow { font-size: 12px; }
+.hero-description,
+.journey-moment p,
+.sound-intro > div:nth-child(2) > p,
+.band-copy > p,
+.experience-copy > p,
+.booking-copy > p { font-size: 17px; line-height: 1.9; }
+.era-card p, .live-header > p, .media-note { font-size: 15px; }
+.band-fact, .booking-aside, .contact-email { font-size: 14px; }
+.booking-form label { font-size: 14px; }
+.booking-form input,
+.booking-form select,
+.booking-form textarea { font-size: 16px; }
+.form-title, .optional-label, .form-footnote, .form-status { font-size: 12px; }
+
+/* Every uploaded photo remains fully visible, with neutral framing around it. */
+.band-photo-real,
+.band-gallery a,
+.live-photo-strip a { background: #171914; }
+.band-photo-real img,
+.band-gallery img,
+.live-photo-strip img {
+  object-fit: contain;
+  object-position: center;
+}
+.band-gallery a:hover img,
+.live-photo-strip a:hover img { transform: none; }
