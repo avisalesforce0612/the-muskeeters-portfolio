@@ -672,3 +672,48 @@ body { font-size: 18px; }
 }
 .band-gallery a:hover img,
 .live-photo-strip a:hover img { transform: none; }
+
+/* Final desktop readability pass: all supporting UI copy reads comfortably
+   at normal viewing distance, independently of the display headings. */
+body { font-size: 20px; }
+.nav-links { font-size: 16px; }
+.wordmark-name small { font-size: 11px; }
+.hero-topline, .hero-art-note, .hero-bottom { font-size: 13px; }
+.hero-kicker, .eyebrow { font-size: 14px; }
+.button, .text-link, .underlined-link, .journey-link { font-size: 16px; }
+.hero-description,
+.journey-moment p,
+.sound-intro > div:nth-child(2) > p,
+.band-copy > p,
+.experience-copy > p,
+.booking-copy > p { font-size: 19px; line-height: 1.75; }
+.journey-topline > span,
+.journey-heading > span,
+.journey-moment-number,
+.journey-progress > div,
+.journey-floor-note,
+.sound-index,
+.sound-foot,
+.era-number,
+.photo-caption,
+.photo-index,
+.reel-stamp,
+.reel-placeholder,
+.reel-caption span,
+.experience-tags span,
+.form-title,
+.site-footer,
+.site-footer small { font-size: 13px; }
+.era-card p, .live-header > p, .media-note { font-size: 16px; }
+.band-fact, .booking-aside, .contact-email { font-size: 16px; }
+.booking-form label { font-size: 15px; }
+.booking-form input,
+.booking-form select,
+.booking-form textarea { font-size: 17px; }
+.optional-label, .form-footnote, .form-status { font-size: 14px; }
+
+@media (max-width: 680px) {
+  body { font-size: 18px; }
+  .nav-links, .button, .text-link, .underlined-link { font-size: 16px; }
+  .hero-description, .band-copy > p, .booking-copy > p { font-size: 18px; }
+}
