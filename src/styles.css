@@ -348,6 +348,39 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .band h2 em, .experience h2 em, .booking h2 em { color: var(--amber); font-weight: 500; }
 .sound-intro>div:nth-child(2)>p { max-width: 530px; margin: 24px 0 0; color: #625e4f; font-size: 13px; line-height: 1.9; }
 .sound-index { color: #9c9287; font-size: 8px; line-height: 1.8; letter-spacing: 1.7px; text-align: right; }
+.chord-journey {
+  display: grid;
+  grid-template-columns: minmax(310px, .84fr) minmax(0, 1.16fr);
+  gap: clamp(28px, 5vw, 76px);
+  margin-top: 60px;
+  padding: clamp(22px, 3vw, 38px);
+  border: 1px solid rgba(59, 59, 39, .22);
+  background: linear-gradient(125deg, rgba(112, 120, 76, .12), rgba(255, 255, 255, .2) 52%, rgba(220, 178, 93, .11));
+}
+.guitar-station { display: flex; min-height: 393px; flex-direction: column; justify-content: space-between; padding: 19px; color: #f6efd9; background: #24291d; box-shadow: 14px 15px 0 rgba(92, 88, 61, .13); }
+.guitar-station-label { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; color: #e5be6d; letter-spacing: 1.6px; }
+.guitar-station-label span { font-size: 11px; }
+.guitar-station-label strong { font: 600 12px var(--serif); letter-spacing: 1.8px; }
+.guitar-neck { position: relative; width: min(100%, 335px); height: 214px; margin: 16px auto; overflow: hidden; transform: rotate(-2deg); border: 9px solid #543c27; border-radius: 7px; background: linear-gradient(90deg, #745438, #372719 46%, #67472c); box-shadow: inset 0 0 0 1px rgba(251, 220, 147, .24), 0 12px 27px rgba(0, 0, 0, .31); }
+.guitar-nut { position: absolute; z-index: 2; top: 0; bottom: 0; left: 4%; width: 5px; background: #dbc68e; }
+.guitar-string { position: absolute; z-index: 3; top: 0; bottom: 0; width: 1px; background: linear-gradient(#efddac, #9d8257, #f1dfa8); box-shadow: 0 0 2px #e4c87e; }
+.guitar-fret { position: absolute; z-index: 1; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, #a58455, #e6d6a0, #9f7e50); }
+.finger-dot { position: absolute; z-index: 7; width: 24px; height: 24px; margin: -12px 0 0 -12px; border: 3px solid #f1c775; border-radius: 50%; background: #b26a45; box-shadow: 0 0 0 4px rgba(246, 210, 135, .13), 0 3px 6px rgba(0, 0, 0, .32); animation: chord-press .46s both; }
+.bar-finger { position: absolute; z-index: 6; right: 5%; left: 5%; height: 18px; margin-top: -9px; transform: rotate(-1deg); border: 2px solid #edc378; border-radius: 999px; background: #b46c48; box-shadow: 0 3px 7px rgba(0, 0, 0, .35); animation: chord-press .45s both; }
+.chord-hand { position: absolute; z-index: 5; right: -26px; bottom: -31px; width: 142px; height: 104px; transform: rotate(-18deg); border-radius: 57% 48% 24% 33%; background: #c88962; box-shadow: inset 9px 0 0 rgba(101, 54, 41, .24), 0 6px 12px rgba(0, 0, 0, .26); animation: hand-strum 1.05s ease-in-out infinite; }
+.chord-hand::before { position: absolute; top: -34px; left: 29px; width: 67px; height: 75px; transform: rotate(20deg); border-radius: 60% 48% 19% 22%; background: #d39970; content: ''; }
+.chord-hand i { position: absolute; z-index: 2; top: -61px; width: 19px; height: 79px; transform: rotate(18deg); border-radius: 15px; background: #dba57d; box-shadow: inset -3px 0 rgba(102, 56, 41, .18); }
+.chord-hand i:nth-child(1) { left: 42px; }.chord-hand i:nth-child(2) { left: 63px; top: -67px; }.chord-hand i:nth-child(3) { left: 84px; top: -60px; }.chord-hand i:nth-child(4) { top: 8px; left: 20px; height: 56px; transform: rotate(-25deg); }
+.chord-readout { display: grid; grid-template-columns: auto 1fr; gap: 0 13px; align-items: center; color: #ebd8aa; }
+.chord-readout span { font-size: 10px; letter-spacing: 1.6px; }.chord-readout strong { font: 600 52px/.8 var(--serif); }.chord-readout em { grid-column: 1 / -1; margin-top: 11px; color: #bdb68d; font-size: 12px; font-style: normal; letter-spacing: 2.1px; }
+.sound-card-stack { display: flex; flex-direction: column; justify-content: center; gap: 9px; }
+.sound-card { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto 28px; gap: 15px; align-items: center; width: 100%; min-height: 91px; padding: 16px 18px; transform-origin: left center; border: 1px solid transparent; color: #38382b; background: transparent; cursor: pointer; text-align: left; transition: background .3s ease, border-color .3s ease, transform .3s ease, box-shadow .3s ease; }
+.sound-card:hover, .sound-card-active { transform: translateX(8px); border-color: rgba(92, 103, 60, .48); background: rgba(255, 253, 239, .75); box-shadow: 8px 9px 0 rgba(113, 117, 77, .12); }
+.sound-card-number { color: #887645; font-size: 13px; letter-spacing: 1.4px; }.sound-card-copy { display: grid; gap: 3px; }.sound-card-copy small { color: #7d8560; font-size: 10px; letter-spacing: 1.55px; }.sound-card-copy strong { font: 500 28px/1 var(--serif); }.sound-card-copy em { color: #6e6a58; font-size: 14px; font-style: normal; }
+.sound-card-chords { display: flex; gap: 5px; }.sound-card-chords i { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid rgba(105, 112, 69, .38); border-radius: 50%; color: #5d6844; font: 600 12px var(--serif); font-style: normal; }.sound-card-active .sound-card-chords i { color: #f7ebcd; background: #5d6844; }
+.sound-card > svg { color: #768052; transition: transform .3s ease; }.sound-card-active > svg { transform: translateX(4px); }
+@keyframes chord-press { from { opacity: 0; transform: translateY(-17px) scale(.65); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes hand-strum { 0%, 100% { transform: rotate(-18deg) translate(0, 0); } 50% { transform: rotate(-14deg) translate(-8px, -5px); } }
 .era-list { margin-top: 62px; border-top: 1px solid rgba(35, 37, 28, .23); }
 .era-card { display: grid; grid-template-columns: .22fr 1.2fr 1fr auto; gap: 20px; align-items: center; min-height: 92px; border-bottom: 1px solid rgba(35, 37, 28, .18); }
 .era-number { color: #7d713f; font-size: 9px; letter-spacing: 1.4px; }
@@ -716,4 +749,11 @@ body { font-size: 20px; }
   body { font-size: 18px; }
   .nav-links, .button, .text-link, .underlined-link { font-size: 16px; }
   .hero-description, .band-copy > p, .booking-copy > p { font-size: 18px; }
+  .chord-journey { grid-template-columns: 1fr; gap: 20px; margin-top: 36px; padding: 13px; }
+  .guitar-station { min-height: 334px; padding: 14px; }
+  .guitar-neck { height: 175px; }
+  .sound-card { grid-template-columns: 27px 1fr 24px; gap: 9px; min-height: 100px; padding: 13px 9px; }
+  .sound-card-chords { display: none; }
+  .sound-card-copy strong { font-size: 26px; }
+  .sound-card-copy em { font-size: 14px; }
 }

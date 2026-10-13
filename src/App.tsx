@@ -22,9 +22,46 @@ import type { DriveMediaFile } from './useDriveMedia';
 const StageScene = lazy(() => import('./components/StageScene'));
 
 const soundEras = [
-  { number: '01', title: 'The forever songs', detail: 'Timeless classics. Still hits.' },
-  { number: '02', title: 'The throwbacks', detail: '90s, 2000s, 2010s. You know the words.' },
-  { number: '03', title: 'The right now', detail: 'Current favourites and songs on repeat.' },
+  {
+    number: '01',
+    title: 'The forever songs',
+    detail: 'Timeless classics. Still hits.',
+    era: 'THE OLD SONGBOOK',
+    progression: ['Am', 'F', 'G', 'E'],
+    chordMarks: [
+      [[2, 1], [3, 2], [3, 3]],
+      [[1, 2], [2, 2], [3, 3]],
+      [[1, 2], [2, 3], [3, 3]],
+      [[1, 1], [2, 2], [3, 2]],
+    ],
+  },
+  {
+    number: '02',
+    title: 'The throwbacks',
+    detail: '90s, 2000s, 2010s. You know the words.',
+    era: 'THE NOSTALGIA SET',
+    progression: ['Bm', 'G', 'A', 'F#'],
+    chordMarks: [
+      [[2, 2], [4, 2], [4, 3]],
+      [[1, 2], [2, 2], [3, 3]],
+      [[2, 2], [3, 2], [4, 3]],
+      [[1, 2], [2, 3], [3, 4]],
+    ],
+    bar: 2,
+  },
+  {
+    number: '03',
+    title: 'The right now',
+    detail: 'Current favourites and songs on repeat.',
+    era: 'ON REPEAT TONIGHT',
+    progression: ['G', 'Em', 'C', 'D'],
+    chordMarks: [
+      [[3, 2], [2, 3], [3, 3]],
+      [[2, 2], [3, 2], [4, 3]],
+      [[2, 2], [3, 3], [4, 3]],
+      [[1, 2], [2, 2], [3, 3]],
+    ],
+  },
 ];
 
 const eventTypes = ['Cafe / restaurant', 'Private event', 'Public jam / community', 'Other live gig'];
@@ -214,6 +251,70 @@ function Journey() {
   );
 }
 
+function ChordJourney() {
+  const [activeEra, setActiveEra] = useState(0);
+  const [activeChord, setActiveChord] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const active = soundEras[activeEra];
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const timer = window.setInterval(() => {
+      setActiveChord((currentChord) => {
+        if (currentChord < active.progression.length - 1) return currentChord + 1;
+        setActiveEra((currentEra) => (currentEra + 1) % soundEras.length);
+        return 0;
+      });
+    }, 1050);
+    return () => window.clearInterval(timer);
+  }, [active.progression.length, reduceMotion]);
+
+  function selectEra(index: number) {
+    setActiveEra(index);
+    setActiveChord(0);
+  }
+
+  return (
+    <div className="chord-journey">
+      <div className="guitar-station" aria-label={`Animated guitar chord progression: ${active.progression.join(', ')}`}>
+        <div className="guitar-station-label"><span>NOW PLAYING</span><strong>{active.era}</strong></div>
+        <div className="guitar-neck" aria-hidden="true">
+          <div className="guitar-nut" />
+          {Array.from({ length: 6 }, (_, string) => <i className="guitar-string" style={{ left: `${10 + string * 16}%` }} key={string} />)}
+          {Array.from({ length: 5 }, (_, fret) => <i className="guitar-fret" style={{ top: `${15 + fret * 17}%` }} key={fret} />)}
+          {active.bar && activeChord === 0 && <span className="bar-finger" style={{ top: `${16 + (active.bar - 1) * 17}%` }} />}
+          {active.chordMarks[activeChord].map(([string, fret], index) => (
+            <span
+              className="finger-dot"
+              key={`${string}-${fret}-${index}`}
+              style={{ left: `${10 + (string - 1) * 16}%`, top: `${16 + (fret - 1) * 17}%`, animationDelay: `${index * 80}ms` }}
+            />
+          ))}
+          <div className="chord-hand"><i /><i /><i /><i /></div>
+        </div>
+        <div className="chord-readout"><span>CHORD {String(activeChord + 1).padStart(2, '0')}</span><strong>{active.progression[activeChord]}</strong><em>{active.progression.join(' · ')}</em></div>
+      </div>
+      <div className="sound-card-stack">
+        {soundEras.map((era, index) => (
+          <button
+            className={index === activeEra ? 'sound-card sound-card-active' : 'sound-card'}
+            key={era.number}
+            type="button"
+            onClick={() => selectEra(index)}
+            onMouseEnter={() => selectEra(index)}
+            aria-pressed={index === activeEra}
+          >
+            <span className="sound-card-number">{era.number}</span>
+            <span className="sound-card-copy"><small>{era.era}</small><strong>{era.title}</strong><em>{era.detail}</em></span>
+            <span className="sound-card-chords">{era.progression.map((chord) => <i key={chord}>{chord}</i>)}</span>
+            <ArrowRight size={21} aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Sound() {
   return (
     <section className="sound section-pad" id="sound">
@@ -228,16 +329,7 @@ function Sound() {
         </div>
         <span className="sound-index">SIDE A<br />ALL THE GOOD STUFF</span>
       </div>
-      <div className="era-list">
-        {soundEras.map((era) => (
-          <article className="era-card" key={era.number}>
-            <span className="era-number">{era.number}</span>
-            <h3>{era.title}</h3>
-            <p>{era.detail}</p>
-            <AudioLines size={19} aria-hidden="true" />
-          </article>
-        ))}
-      </div>
+      <ChordJourney />
       <div className="sound-foot"><span>CLASSICS · THROWBACKS · RIGHT NOW</span><span>THE MOOD PICKS THE SONG.</span></div>
     </section>
   );
