@@ -66,6 +66,14 @@ const soundEras = [
 
 const eventTypes = ['Cafe / restaurant', 'Private event', 'Public jam / community', 'Other live gig'];
 
+const pricingPackages = [
+  { lineup: 'Solo Artist', withoutSound: '₹2,000', withSound: '₹3,000' },
+  { lineup: '2-Piece Band', withoutSound: '₹5,000', withSound: '₹8,000' },
+  { lineup: '3-Piece Band', withoutSound: '₹8,000', withSound: '₹11,000–₹16,000' },
+  { lineup: '4-Piece Band', withoutSound: '₹15,000', withSound: '₹23,000' },
+  { lineup: '5-Piece Band', withoutSound: '₹18,000', withSound: '₹26,000' },
+] as const;
+
 function Eyebrow({ children }: { children: string }) {
   return <div className="eyebrow"><span className="eyebrow-line" />{children}</div>;
 }
@@ -84,7 +92,7 @@ function BrandAtmosphere() {
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const links = [['The sound', '#sound'], ['The band', '#band'], ['Live moments', '#live'], ['Bookings', '#booking']];
+  const links = [['The sound', '#sound'], ['The band', '#band'], ['Live moments', '#live'], ['Pricing', '#pricing'], ['Bookings', '#booking']];
 
   return (
     <header className="site-header">
@@ -476,6 +484,41 @@ function Experience() {
   );
 }
 
+function Pricing() {
+  return (
+    <section className="pricing section-pad" id="pricing" aria-labelledby="pricing-heading">
+      <div className="pricing-header">
+        <div>
+          <Eyebrow>THE PRACTICAL BIT, DONE NICELY</Eyebrow>
+          <h2 id="pricing-heading">Good music.<br /><em>Clear pricing.</em></h2>
+        </div>
+        <p>Pick your lineup, tell us about the room, and we&apos;ll help figure out the right setup for your gig.</p>
+      </div>
+      <div className="pricing-table" aria-label="The Musketeers performance pricing in Indian Rupees">
+        <div className="pricing-table-head">
+          <span>LINEUP</span>
+          <span>WITHOUT SOUND</span>
+          <span>WITH SOUND</span>
+        </div>
+        <div className="pricing-table-body">
+          {pricingPackages.map((packageInfo, index) => (
+            <article className="pricing-row" key={packageInfo.lineup}>
+              <span className="pricing-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{packageInfo.lineup}</h3>
+              <p className="pricing-price"><span>WITHOUT SOUND</span>{packageInfo.withoutSound}</p>
+              <p className="pricing-price"><span>WITH SOUND</span>{packageInfo.withSound}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+      <div className="pricing-footer">
+        <p><strong>A note on the 3-piece:</strong> sound adds ₹3,000–₹8,000 depending on audience size and the space available at your venue.</p>
+        <a href="#booking" className="underlined-link">Let&apos;s plan your gig <ArrowUpRight size={16} /></a>
+      </div>
+    </section>
+  );
+}
+
 function Booking() {
   const dateInputRef = useRef<HTMLInputElement>(null);
   const [eventType, setEventType] = useState(eventTypes[0]);
@@ -608,6 +651,7 @@ export default function App() {
           configured={media.configured}
         />
         <Experience />
+        <Pricing />
         <Booking />
       </main>
       <Footer />

@@ -472,6 +472,26 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .experience-tags span { padding: 8px 10px; border: 1px solid rgba(243, 238, 230, .2); color: #d3c2ad; font-size: 7px; letter-spacing: 1px; }
 .experience-copy .underlined-link { border-bottom: 1px solid rgba(243, 238, 230, .35); }
 
+.pricing { color: #25271f; background: #dcd5c1; }
+.pricing-header { display: flex; align-items: end; justify-content: space-between; gap: 48px; margin-bottom: 55px; }
+.pricing-header .eyebrow { margin-bottom: 22px; color: #56603f; }
+.pricing h2 { margin: 0; font-size: clamp(45px, 6.2vw, 76px); line-height: .88; }
+.pricing h2 em { color: #5e693e; }
+.pricing-header > p { max-width: 385px; margin: 0 0 4px; color: #625f52; font-size: 15px; line-height: 1.75; }
+.pricing-table { border-top: 1px solid #9c9a86; }
+.pricing-table-head, .pricing-row { display: grid; grid-template-columns: minmax(220px, 1.2fr) minmax(160px, .7fr) minmax(185px, .8fr); }
+.pricing-table-head { padding: 15px 0; border-bottom: 1px solid #aaa795; color: #656252; font-size: 11px; font-weight: 600; letter-spacing: 1.2px; }
+.pricing-row { position: relative; min-height: 101px; align-items: center; border-bottom: 1px solid #b9b4a1; transition: background-color .3s ease, padding .3s ease; }
+.pricing-row:hover { padding-right: 16px; padding-left: 16px; background: rgba(245, 240, 224, .52); }
+.pricing-index { position: absolute; top: 17px; left: 0; color: #898474; font-size: 10px; letter-spacing: 1px; }
+.pricing-row h3 { margin: 0; padding-left: 30px; font: 600 clamp(27px, 3vw, 40px)/1 var(--serif); }
+.pricing-price { display: flex; flex-direction: column; gap: 7px; margin: 0; color: #33332b; font: 600 clamp(22px, 2.5vw, 33px)/1 var(--serif); white-space: nowrap; }
+.pricing-price span { display: none; color: #686452; font: 600 10px 'DM Sans', sans-serif; letter-spacing: 1.1px; }
+.pricing-footer { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding-top: 25px; }
+.pricing-footer p { max-width: 700px; margin: 0; color: #635f50; font-size: 14px; line-height: 1.7; }
+.pricing-footer strong { color: #3b3b30; }
+.pricing-footer .underlined-link { flex: 0 0 auto; border-bottom: 1px solid #817d69; color: #3d4730; }
+
 .booking { display: grid; grid-template-columns: .85fr 1.15fr; gap: 10%; background: #4b5537; }
 .booking .eyebrow { color: #f1cb7c; }
 .booking h2 { margin-top: 27px; }
@@ -532,6 +552,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .band-grid { gap: 6%; }
   .booking { gap: 6%; }
   .booking-form { padding: 23px; }
+  .pricing-table-head, .pricing-row { grid-template-columns: minmax(185px, 1.1fr) minmax(145px, .72fr) minmax(165px, .8fr); }
+}
+@media (max-width: 1120px) and (min-width: 681px) {
+  .site-header { padding-right: 5%; padding-left: 5%; }
+  .nav-links { gap: 18px; font-size: 13px; }
 }
 @media (max-width: 680px) {
   body::after {
@@ -590,6 +615,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .reel-caption { min-height: 60px; }
   .live-photo-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 24px; }
   .experience { grid-template-columns: 1fr; gap: 27px; }
+  .pricing-header { display: block; margin-bottom: 34px; }
+  .pricing-header .eyebrow { margin-bottom: 18px; }
+  .pricing h2 { font-size: clamp(44px, 12vw, 62px); }
+  .pricing-header > p { max-width: 360px; margin-top: 21px; font-size: 14px; }
+  .pricing-table-head { display: none; }
+  .pricing-row { grid-template-columns: 1fr 1fr; gap: 17px 14px; min-height: 0; padding: 22px 0; }
+  .pricing-row:hover { padding-right: 0; padding-left: 0; background: transparent; }
+  .pricing-index { position: static; grid-column: 1 / -1; margin-bottom: -9px; font-size: 9px; }
+  .pricing-row h3 { grid-column: 1 / -1; padding-left: 0; font-size: 31px; }
+  .pricing-price { gap: 6px; min-width: 0; font-size: clamp(21px, 7vw, 29px); white-space: normal; }
+  .pricing-price span { display: block; font-size: 9px; }
+  .pricing-footer { display: block; padding-top: 20px; }
+  .pricing-footer p { font-size: 13px; }
+  .pricing-footer .underlined-link { display: inline-flex; margin-top: 22px; }
   .booking { grid-template-columns: 1fr; gap: 32px; }
   .booking-form { padding: 21px 17px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
