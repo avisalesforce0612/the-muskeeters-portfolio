@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { motion, useMotionValue, useReducedMotion } from 'framer-motion';
 import { siteConfig, showreel } from './siteConfig';
-import { driveThumbnailUrl, driveVideoPreviewUrl, useDriveMedia } from './useDriveMedia';
+import { driveThumbnailUrl, useDriveMedia } from './useDriveMedia';
 import type { DriveMediaFile } from './useDriveMedia';
 
 const StageScene = lazy(() => import('./components/StageScene'));
@@ -394,22 +394,14 @@ function Band({ photos, loading, configured }: { photos: DriveMediaFile[]; loadi
   );
 }
 
-function Live({ videos, photos, loading, error, configured }: {
-  videos: DriveMediaFile[];
+function Live({ photos, loading, error, configured }: {
   photos: DriveMediaFile[];
   loading: boolean;
   error: string;
   configured: boolean;
 }) {
   const [active, setActive] = useState<{ title: string; videoUrl: string } | null>(null);
-  const clips = videos.length > 0
-    ? videos.map((video) => ({
-      id: video.id,
-      title: video.name.replace(/\.[^.]+$/, ''),
-      category: 'Live performance',
-      videoUrl: driveVideoPreviewUrl(video.id),
-    }))
-    : showreel.map((item) => ({ ...item, id: item.title }));
+  const clips = showreel.map((item) => ({ ...item, id: item.title }));
 
   return (
     <section className="live-section section-pad" id="live">
@@ -427,18 +419,14 @@ function Live({ videos, photos, loading, error, configured }: {
                   <i key={bar} style={{ height: `${12 + ((bar * 13 + index * 19) % 57)}px` }} />
                 ))}
               </div>
-              {item.videoUrl ? (
-                <button className="play-button" type="button" onClick={() => setActive({ title: item.title, videoUrl: item.videoUrl })} aria-label={`Play ${item.title}`}>
-                  <Play size={17} fill="currentColor" />
-                </button>
-              ) : (
-                <span className="reel-placeholder">{loading ? 'LOADING CLIPS FROM DRIVE' : 'ADD VIDEOS TO THE DRIVE FOLDER'}</span>
-              )}
+              <button className="play-button" type="button" onClick={() => setActive({ title: item.title, videoUrl: item.videoUrl })} aria-label={`Play ${item.title}`}>
+                <Play size={17} fill="currentColor" />
+              </button>
               <span className="reel-overlay" aria-hidden="true" />
             </div>
             <div className="reel-caption">
               <div><span>{item.category}</span><strong>{item.title}</strong></div>
-              {item.videoUrl && <button type="button" onClick={() => setActive({ title: item.title, videoUrl: item.videoUrl })} aria-label={`Play ${item.title}`}><ArrowUpRight size={17} /></button>}
+              <button type="button" onClick={() => setActive({ title: item.title, videoUrl: item.videoUrl })} aria-label={`Play ${item.title}`}><ArrowUpRight size={17} /></button>
             </div>
           </article>
         ))}
@@ -454,7 +442,7 @@ function Live({ videos, photos, loading, error, configured }: {
       )}
       {error && <p className="media-note media-error" role="status">Couldn’t load the Drive folder: {error}</p>}
       {!configured && <p className="media-note">The Drive folder is selected, but this site build has no Drive API key. Add a restricted, read-only key and redeploy; photos already in the folder will appear after refresh.</p>}
-      {configured && !loading && !error && videos.length === 0 && photos.length === 0 && (
+      {configured && !loading && !error && photos.length === 0 && (
         <p className="media-note">Drive folder connected — no photos or videos yet. Add media to this folder and it will appear here on the next refresh.</p>
       )}
       {active !== null && (
@@ -644,7 +632,6 @@ export default function App() {
         <Sound />
         <Band photos={media.photos} loading={media.loading} configured={media.configured} />
         <Live
-          videos={media.videos}
           photos={media.photos}
           loading={media.loading}
           error={media.error}

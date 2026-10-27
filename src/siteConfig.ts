@@ -9,9 +9,9 @@ export const siteConfig = {
   youtubeUrl: '',
 };
 
-// Add verified public video/embed URLs only; empty URLs render as non-interactive placeholders.
+// Keep live clips on YouTube so they play reliably without requiring Google Drive access.
 export const showreel = [
-  { title: 'A night, live', category: 'Live performance', videoUrl: '' },
-  { title: 'Up close', category: 'Acoustic session', videoUrl: '' },
-  { title: 'Sing it back', category: 'Audience moments', videoUrl: '' },
+  { title: 'Performance 1', category: 'Live performance', videoUrl: 'https://www.youtube.com/embed/Qin5iFOtgAw?autoplay=1&rel=0' },
+  { title: 'Performance 2', category: 'Live performance', videoUrl: 'https://www.youtube.com/embed/khVHboHpxLg?autoplay=1&rel=0' },
+  { title: 'Hawaayein - The Musketeers', category: 'Live performance', videoUrl: 'https://www.youtube.com/embed/CSjxY1BfEC8?autoplay=1&rel=0' },
 ];
